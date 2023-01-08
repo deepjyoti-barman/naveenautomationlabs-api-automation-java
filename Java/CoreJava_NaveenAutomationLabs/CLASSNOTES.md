@@ -1,4 +1,4 @@
-# Introduction to Core Java - NaveenAutomationLabs
+# Core Java - NaveenAutomationLabs
 
 ## Basics
 
@@ -13,13 +13,13 @@
 - Data type: Type of data a variable is going to hold
 - Primitive data types: They will directly associate with the memory allocation, no need to create object
 - Non-primitive data types: String, ArrayList, HashMap -> without creating objects we can't use it.
-- Integer family: byte, short, long int
+- Interger family: byte, short, long int
 - Floating family: double, float
 - Character: char (char is treated as special unicode character, unicode character is special ASCII number represented by each and every character)
 - char will use ASCII value when you are doing any arithmetic operation with them. Important ASCII value ranges are given below:
-  - a to z: 97-122
-  - A to Z: 65-90
-  - 0 to 9: 48-57
+    - a to z: 97-122
+    - A to Z: 65-90
+    - 0 to 9: 48-57
 - Boolean: boolean - true / false
 - String (Non-primitive data type)
 
