@@ -23,3 +23,10 @@
 
 - given(), when(), then(), and(), but()
 - Logging will be applied on only three methods: given(), when(), then()
+- oauth(): In order to use OAuth 1 and OAuth 2 (for query parameter signing) you need to add Scribe to your classpath (if you're using version 2.1.0 or older of REST Assured then please refer to the legacy documentation). In Maven you can simply add the following dependency:
+
+## Resources
+
+- [REST-Assured GitHub](https://github.com/rest-assured/rest-assured)
+- [REST-Assured Official Documentation](https://github.com/rest-assured/rest-assured/wiki/GettingStarted)
+- [REST-Assured User Guide](https://github.com/rest-assured/rest-assured/wiki/Usage)

@@ -1,4 +1,4 @@
-package com.academy.naveenautomationlabs.apis.get;
+package com.academy.naveenautomationlabs.api.get;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
