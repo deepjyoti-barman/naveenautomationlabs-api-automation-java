@@ -19,6 +19,13 @@
   - API automation test-cases have a lower chance to fail because of unnecessary flakiness
   - Before going for UI automation we should automate the APIs as it will be a smoke test for all the modules
 - Non-BDD approach of writing test cases in REST-Assured is more preferable that BDD approach because it gives you more flexibility, more control over the methods and to extract information out of them.
+- API Schema:
+  - API Schema defines and enforces structure to the data. In other words it is metadata that tells us how our data is structured
+  - API Schema is defined in JSON format
+  - Used to build the API contract between two systems / platforms
+  - If one system violates the API schema chances are there then the other system might fail
+  - During data migration API Schema validation from old system to new system has to be validated
+  - JSON Schema validation is not available in HTTPClient
 
 ## Methods
 
@@ -46,6 +53,13 @@
     <version>20220924</version>
   </dependency>
   ```
+  
+## POJO
+
+- Reason behind POJO and not using other approaches is mostly we will be driving constant data in the form of String or file object, so we won't be able to create multiple different users, employees etc. and validate the API behaviour against different test values
+- POJO stands for  "Plain Old Java Object" - where we will define some variables, some methods in the form of getters and setters and using the concepts of Object-Oriented Programming in the form of Encapsulation (Hiding the data members) -> private variables can be accessed via public methods, getter and setter methods
+- Here instead of passing the JSON Body To create a user, we will use a Java Class (POJO class) -> This class's object will be converted to a JSON object, which then we will pass in the request body
+
 
 ## Resources
 
@@ -56,3 +70,4 @@
 - [POST Call with json-simple Dependency](https://www.toolsqa.com/rest-assured/post-request-using-rest-assured/)
 - [POST Call Different Approaches](http://www.eliasnogueira.com/the-best-way-to-add-a-request-body-to-a-post-request-using-rest-assured/)
 - [REST-Assured Validation Tutorial](https://www.baeldung.com/rest-assured-tutorial)
+- [JSON Schema Converter](https://www.liquid-technologies.com/online-json-to-schema-converter)
