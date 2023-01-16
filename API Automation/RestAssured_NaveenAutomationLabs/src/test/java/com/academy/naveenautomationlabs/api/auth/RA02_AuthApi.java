@@ -1,6 +1,7 @@
 package com.academy.naveenautomationlabs.api.auth;
 
 import io.restassured.RestAssured;
+import io.restassured.authentication.FormAuthConfig;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -10,9 +11,10 @@ import static io.restassured.RestAssured.*;
 
 public class RA02_AuthApi {
 
-    // Basic Authentication
+    // Preemptive Authentication
+    // The preemptive () directive has to be added after auth ()
     @Test
-    public void basicAuthApiTest001() {
+    public void basicPreemptiveAuthApiTest001() {
 
         given()
                 .log().all()
@@ -25,9 +27,56 @@ public class RA02_AuthApi {
                 .assertThat().statusCode(200);
     }
 
+    @Test
+    public void basicAuthApiTest002() {
+
+        given()
+                .log().all()
+                .auth().basic("admin", "admin")
+        .when()
+                .log().all()
+                .get("http://the-internet.herokuapp.com/basic_auth")
+        .then()
+                .log().all()
+                .assertThat().statusCode(200);
+    }
+
+    @Test
+    public void digestAuthApiTest003() {
+
+        given()
+                .log().all()
+                .auth().digest("admin", "admin")
+        .when()
+                .log().all()
+                .get("http://the-internet.herokuapp.com/basic_auth")
+        .then()
+                .log().all()
+                .assertThat().statusCode(200);
+    }
+
+    @Test
+    public void formAuthApiTest004() {
+
+        given()
+                .log().all()
+                .auth().form("qa9988",
+                        "makemytrip@123",
+                        new FormAuthConfig(
+                                "https://classic.freecrm.com/system/authenticate.cfm",
+                                "username",
+                                "password"))
+        .when()
+                .log().all()
+                .post("https://classic.freecrm.com/system/authenticate.cfm")
+        .then()
+                .log().all()
+                .assertThat().statusCode(302);
+    }
+
     // OAuth2.0 Authentication
     @Test
-    public void oauth2ApiTest002() {
+    public void oauth2ApiTest005() {
 
         String jsonPayload = "{\n" +
                 "    \"name\": \"Micky Mouse\",\n" +
@@ -48,7 +97,7 @@ public class RA02_AuthApi {
     }
 
     @Test
-    public void oauth2ApiTest003() {
+    public void oauth2ApiTest006() {
 
         String jsonPayload = "{\n" +
                 "    \"name\": \"Micky Mouse\",\n" +
@@ -70,7 +119,7 @@ public class RA02_AuthApi {
     }
 
     @Test
-    public void oauth2ApiTest004() {
+    public void oauth2ApiTest007() {
         RequestSpecification request = given().auth().oauth2("72a266d8db2931c03557fa61b5c150c21d76a672");
         Response response = request.post("http://coop.apps.symfonycasts.com/api/4195/chickens-feed");
         System.out.println(response.getStatusCode());
@@ -81,7 +130,7 @@ public class RA02_AuthApi {
     // 2. Extract tokenID from the response
     // 3. Hit the next api with this tokenID
     @Test
-    public void oauth2ApiTest005() {
+    public void oauth2ApiTest008() {
 
         // Request 1 - generate the tokenID
         RequestSpecification request = RestAssured.given()
@@ -107,7 +156,7 @@ public class RA02_AuthApi {
     @Test
     // p1 = Consumer Key, p2 = Consumer Secret, p3 = Access Token, p4 = Token Secret
     // In order to use OAuth 1 and OAuth 2 (for query parameter signing) you need to add Scribe to your classpath
-    public void oauth1ApiTest006() {
+    public void oauth1ApiTest009() {
         RequestSpecification request = RestAssured.given().auth().oauth("HGgqWV2t6YnEhhBvuDnAcYlli",
                 "LTqWrkWEkcW7FsZ093gq1Z9IfnED8LSY4cpCBAiQGY8AXrLloQ",
                 "220976784-2eQZmLlaEPxeNb3Wywy24dXldUlq1ge29afKA2AR",

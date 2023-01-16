@@ -19,13 +19,31 @@
   - API automation test-cases have a lower chance to fail because of unnecessary flakiness
   - Before going for UI automation we should automate the APIs as it will be a smoke test for all the modules
 - Non-BDD approach of writing test cases in REST-Assured is more preferable that BDD approach because it gives you more flexibility, more control over the methods and to extract information out of them.
-- API Schema:
+- API Schema
   - API Schema defines and enforces structure to the data. In other words it is metadata that tells us how our data is structured
   - API Schema is defined in JSON format
   - Used to build the API contract between two systems / platforms
   - If one system violates the API schema chances are there then the other system might fail
   - During data migration API Schema validation from old system to new system has to be validated
   - JSON Schema validation is not available in HTTPClient
+
+## Authentications
+
+- Basic
+- Preemptive
+  - By default, Rest Assured uses the challenge-response mechanism. This means that it waits for the server to challenge rather than send the credentials directly. By using the preemptive directives we can avoid that additional call that the server makes and hence additional complications. In a way, it is similar to the basic auth we saw above, the only difference is that an additional preemptive () directive adds after auth ()
+  - The preemptive authentication view sends the authentication details in the request header irrespective of being asked by the server
+  - We've seen on a previous post on a Spring Security authentication, a server might use a challenge-response mechanism to indicate explicitly when the consumer needs authenticate to access the resource. By default, REST Assured waits for the server to challenge before sending the credentials. This can be troublesome in some cases, for example, where the server is configured to retrieve a login form instead of the challenge response. For this reason, the library provides the preemptive directive that we can use. With this in place, REST Assured will send the credentials without waiting for an Unauthorized response
+- Digest
+  - In digest authentication we need to pass username and password (but it is not basic authentication)
+  - Digest authentication is a type of HTTP authentication
+  - Whenever we send the username and password server wants to check server will check your username and password has Hashing mechanism or not.
+  - Along with username and password internally a hashcode will be sent from client to server so that at the network layer these two username and password always remain secured. Meanwhile, in basic auth client will directly send the username and password to the server without any Hashing.
+- Form
+  - Form based means when we have to enter the username and password from the HTML login page and send the same to the server
+  - In the background one POST or PUT API will be called, and it will take those username and password from the HTML form and send to the server
+- OAuth1.0
+- OAuth2.0
 
 ## Methods
 
