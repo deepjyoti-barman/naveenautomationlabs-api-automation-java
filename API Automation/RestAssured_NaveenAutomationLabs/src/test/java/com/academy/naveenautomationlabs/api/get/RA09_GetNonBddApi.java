@@ -18,7 +18,8 @@ public class RA09_GetNonBddApi {
         RestAssured.baseURI = "https://gorest.co.in";
 
         RequestSpecification request = RestAssured.given();
-        request.queryParam("email", "ahuja_girja@luettgen.com");
+        request.header("Authorization", "Bearer fd7c373f58ed71bf6f081977bf4bf4b5a47272554dfbeabfa5eff87b83a6e064");
+        request.queryParam("email", "sofia.ahmed@cognizant.com");
         request.queryParam("gender", "female");
         request.log().all();
 
@@ -37,10 +38,11 @@ public class RA09_GetNonBddApi {
 
         // Passing query parameters using HashMap
         Map<String, String> params = new HashMap<>();
-        params.put("email", "ahuja_girja@luettgen.com");
+        params.put("email", "sofia.ahmed@cognizant.com");
         params.put("gender", "female");
 
         RequestSpecification request = RestAssured.given();
+        request.auth().oauth2("fd7c373f58ed71bf6f081977bf4bf4b5a47272554dfbeabfa5eff87b83a6e064");
         request.queryParams(params);
         request.log().all();
 

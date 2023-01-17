@@ -77,7 +77,266 @@
 - Reason behind POJO and not using other approaches is mostly we will be driving constant data in the form of String or file object, so we won't be able to create multiple different users, employees etc. and validate the API behaviour against different test values
 - POJO stands for  "Plain Old Java Object" - where we will define some variables, some methods in the form of getters and setters and using the concepts of Object-Oriented Programming in the form of Encapsulation (Hiding the data members) -> private variables can be accessed via public methods, getter and setter methods
 - Here instead of passing the JSON Body To create a user, we will use a Java Class (POJO class) -> This class's object will be converted to a JSON object, which then we will pass in the request body
+- POJO Serialization of the same request given below:
 
+  ```json
+  {
+    "name": "Test Automation",
+    "gender": "Male",
+    "email":"testAutomation6@gmail.com",
+    "status":"Active"
+  }
+  ```
+  
+  ```java
+  package com.restassured.vo;
+  
+  public class createUserDO  {
+  
+      private String name;
+      private String gender;
+      private String email;
+      private String status;
+  
+  
+      public String getName() {
+          return name;
+      }
+  
+      public void setName(String name) {
+          this.name = name;
+      }
+  
+      public String getGender() {
+          return gender;
+      }
+  
+      public void setGender(String gender) {
+          this.gender = gender;
+      }
+  
+      public String getEmail() {
+          return email;
+      }
+  
+      public void setEmail(String email) {
+          this.email = email;
+      }
+  
+      public String getStatus() {
+          return status;
+      }
+  
+      public void setStatus(String status) {
+          this.status = status;
+      }
+  }
+  ```
+  
+  ```java
+  package com.restassured.tests;
+
+  import org.junit.Test;
+  import com.restassured.vo.createUserDO;
+  import io.restassured.http.ContentType;
+  
+  import static io.restassured.RestAssured.given;
+  
+  public class SamplePostRestTest {
+  
+      @Test
+      public void createUser_whenSuccess() {
+          createUserDO cu = new createUserDO();
+          cu.setName("Test Automation");
+          cu.setGender("Female");
+          cu.setEmail("testAutomation25@gmail.com");
+          cu.setStatus("Active");
+  
+          String resp = given()
+                  .log().all()
+                  .header("authorization", "Bearer 0431655cfe7ba40a791e0ce32d83ad33363348919c11627f409a3228f205e15f")
+                  .accept(ContentType.JSON)
+                  .contentType("application/json")
+                  .body(cu)
+          .when()
+                  .post("https://gorest.co.in/public-api/users") //hit the post end point
+          .thenReturn()
+                  .asString();
+  
+          System.out.println(resp);
+      }
+  }
+  ```
+
+- Note: we need to use @JsonIgnoreProperties(ignoreUnknown=true)as  is applicable at deserialization of JSON to Java object (POJO) only
+- POJO De-Serialization of the sample response given below:
+
+  ```json
+  {
+      "code": 201,
+      "meta": null,
+      "data": {
+          "id": 1493,
+          "name": "Test Automation",
+          "email": "testAutomation701@gmail.com",
+          "gender": "Male",
+          "status": "Active",
+          "created_at": "2021-01-07T12:30:58.987+05:30",
+          "updated_at": "2021-01-07T12:30:58.987+05:30"
+      }
+  }
+  ```
+
+  ```java
+  package com.restassured.vo;
+  
+  import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+  
+  @JsonIgnoreProperties(ignoreUnknown = true)
+  public class ResponseDataObjects {
+  
+      private Integer code;
+      private Object meta;
+      private Data data;
+  
+      public Integer getCode() {
+          return code;
+      }
+  
+      public void setCode(Integer code) {
+          this.code = code;
+      }
+  
+      public Object getMeta() {
+          return meta;
+      }
+  
+      public void setMeta(Object meta) {
+          this.meta = meta;
+      }
+  
+      public Data getData() {
+          return data;
+      }
+  
+      public void setData(Data data) {
+          this.data = data;
+      }
+  
+  }
+  ```
+  
+  ```java
+  package com.restassured.vo;
+  
+  import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+  
+  @JsonIgnoreProperties(ignoreUnknown = true)
+  public class Data {
+      
+      private Integer id;
+      private String name;
+      private String email;
+      private String gender;
+      private String status;
+      private String createdAt;
+      private String updatedAt;
+      
+      public Integer getId() {
+          return id;
+      }
+  
+      public void setId(Integer id) {
+          this.id = id;
+      }
+  
+      public String getName() {
+          return name;
+      }
+  
+      public void setName(String name) {
+          this.name = name;
+      }
+  
+      public String getEmail() {
+          return email;
+      }
+  
+      public void setEmail(String email) {
+          this.email = email;
+      }
+  
+      public String getGender() {
+          return gender;
+      }
+  
+      public void setGender(String gender) {
+          this.gender = gender;
+      }
+  
+      public String getStatus() {
+          return status;
+      }
+  
+      public void setStatus(String status) {
+          this.status = status;
+      }
+  
+      public String getCreatedAt() {
+          return createdAt;
+      }
+  
+      public void setCreatedAt(String createdAt) {
+          this.createdAt = createdAt;
+      }
+  
+      public String getUpdatedAt() {
+          return updatedAt;
+      }
+  
+      public void setUpdatedAt(String updatedAt) {
+          this.updatedAt = updatedAt;
+      }
+  }
+  ```
+
+  ```java
+  package com.restassured.tests;
+  
+  import org.junit.Test;
+  import org.testng.Assert;
+  import com.restassured.vo.CreateUserDO;
+  import com.restassured.vo.ResponseDataObjects;
+  import io.restassured.http.ContentType;
+  
+  import static io.restassured.RestAssured.given;
+  
+  public class SamplePostRestTest {
+  
+      @Test
+      public void createUser_whenSuccess() {
+          
+          CreateUserDO cu = new CreateUserDO();
+          cu.setName("Test Automation");
+          cu.setGender("Female");
+          cu.setEmail("testAutomation1465@gmail.com");
+          cu.setStatus("Active");
+  
+          ResponseDataObjects responseDataObjects = given()
+                  .log().all()
+                  .header("authorization", "Bearer 0431655cfe7ba40a791e0ce32d83ad33363348919c11627f409a3228f205e15f")
+                  .accept(ContentType.JSON)
+                  .contentType("application/json")
+                  .body(cu)
+          when()
+                  .post("https://gorest.co.in/public-api/users") //hit the post end point
+          .thenReturn()
+                  .as(ResponseDataObjects.class);
+  
+          Assert.assertEquals("Test Automation", responseDataObjects.getData().getName());
+      }
+  }
+  ```
 
 ## Resources
 
@@ -89,3 +348,5 @@
 - [POST Call Different Approaches](http://www.eliasnogueira.com/the-best-way-to-add-a-request-body-to-a-post-request-using-rest-assured/)
 - [REST-Assured Validation Tutorial](https://www.baeldung.com/rest-assured-tutorial)
 - [JSON Schema Converter](https://www.liquid-technologies.com/online-json-to-schema-converter)
+- [XPath Tester 1](https://extendsclass.com/xpath-tester.html)
+- [XPath Tester 2](http://xpather.com/)
